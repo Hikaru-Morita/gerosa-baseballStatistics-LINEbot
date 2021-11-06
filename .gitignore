@@ -1,1 +1,5 @@
 secret.json
+
+# ディレクトリ
+venv
+__pycache__
