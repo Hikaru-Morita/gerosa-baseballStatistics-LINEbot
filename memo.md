@@ -1,5 +1,23 @@
 ## メモ
 
+### ローカルで LINEdeveloper から webhook する方法
+まずサーバーをローカルで起動する
+```
+flask run
+```
+次に ngrok で公開する
+(flask run のデフォルトが 5000 番ポートなので 5000 を指定)
+```
+ngrok http 5000
+```
+結果
+![](./img_forMemo/ngrok_url.png)
+
+上記の https://~.ngrok.io をコピーし、LINE Developers 内 Messaging API 内の webhook URL にペーストし Verify をクリック( Use webhook にチェックを入れる)
+![](./img_forMemo/webhook_settings.png)
+
+
+
 ### auth 関連の設定ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
