@@ -26,12 +26,18 @@ docker build .
 
 次にビルドしたイメージにタグを付ける
 ```bash
-docker tag gerosaLINEbot:1.0
+docker tag "image_id" gerosaLINEbot:1.0
 ```
 
-タグ名を指定してイメージからコンテナを立ち上げる
+タグ名を指定してイメージからコンテナを立ち上げる方法
+(flaskが5000番ポートなので5000を指定)
 ```bash
-docker run -i -t -p 8080:8080 gerosa_linebot_python:1.0 /bin/bash
+docker run -i -t -p 5000:5000 gerosa_linebot_python:1.0 /bin/bash
+```
+
+ローカルディレクトリを指定しマウントしてコンテナを立ち上げる方法
+```bash
+docker run -i -t -p 5000:5000 -v /home/moritta/working/gerosa-baseballStatistics-LINEbot:/linebot gerosa_linebot_python:1.0 /bin/bash
 ```
 
 余談だが使わないイメージをまとめて削除するにはこれ
