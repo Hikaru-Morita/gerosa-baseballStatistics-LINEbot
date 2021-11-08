@@ -1,5 +1,5 @@
 From python:3
-USER root
+# USER root
 
 COPY requirements.txt .
 RUN /usr/local/bin/python -m pip install --upgrade pip
