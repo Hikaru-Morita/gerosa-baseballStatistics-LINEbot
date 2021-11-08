@@ -2,12 +2,12 @@
 
 ### ローカルで LINEdeveloper から webhook する方法
 まずサーバーをローカルで起動する
-```
+```bash
 flask run
 ```
 次に ngrok で公開する
 (flask run のデフォルトが 5000 番ポートなので 5000 を指定)
-```
+```bash
 ngrok http 5000
 ```
 結果
@@ -16,9 +16,30 @@ ngrok http 5000
 上記の https://~.ngrok.io をコピーし、LINE Developers 内 Messaging API 内の webhook URL にペーストし Verify をクリック( Use webhook にチェックを入れる)
 ![](./img_forMemo/webhook_settings.png)
 
+### docker の使い方
+(まだ flask コンテナができただけ)
 
+カレントディレクトリの Dockerfile からイメージをビルドする
+```bash
+docker build .
+```
 
-### auth 関連の設定ページ
+次にビルドしたイメージにタグを付ける
+```bash
+docker tag gerosaLINEbot:1.0
+```
+
+タグ名を指定してイメージからコンテナを立ち上げる
+```bash
+docker run -i -t -p 8080:8080 gerosa_linebot_python:1.0 /bin/bash
+```
+
+余談だが使わないイメージをまとめて削除するにはこれ
+```bash
+docker image prune
+```
+
+### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
 
