@@ -40,20 +40,54 @@ docker run -i -t -p 5000:5000 gerosa_linebot_python:1.0 /bin/bash
 docker run -i -t -p 5000:5000 -v /home/moritta/working/gerosa-baseballStatistics-LINEbot:/linebot gerosa_linebot_python:1.0 /bin/bash
 ```
 
+立ち上がっているコンテナに入る方法は
+```bash
+docker ps
+```
+でコンテナIDを確認して exec で入る
+(bin/bash はシェルにホストにあるbashを指定している)
+```bash
+docker exec -it コンテナID bin/bash
+```
+
 余談だが使わないイメージをまとめて削除するにはこれ
 ```bash
 docker image prune
 ```
 
-### auth 関連設定の参照ページ
+### docker コンテナで flask サーバーを運用する場合の注意
+コンテナ内でサーバーを立てる場合は**必ず**下記のコマンドで実行する
+```bash
+python app.py
+```
+以前使っていた
+```bash
+flask run
+```
+だと flask コード内の
+```python
+app.run('host=0.0.0.0')
+```
+の引数で指定したものが反映されないので問題が起きる
+
+flask run を使いたいのならオプションで指定する
+```bash
+flask  run --host=0.0.0.0
+```
+
+そもそも host=0.0.0.0 に設定する理由は外部からアクセスするため、
+ホストからコンテナ内へのアクセスは外部アクセスなのでデフォルトでは不可能
+
+
+#### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
 
-### ローカル(ubuntu) での開発での参考元
+#### ローカル(ubuntu) での開発での参考元
 - [サンプルプログラムが動くまで：qiita](https://qiita.com/suigin/items/0deb9451f45e351acf92)
 - [ngrok の使い方：個人ブログ](https://parashuto.com/rriver/tools/secure-tunneling-service-ngrok)
 
-### 参考元
+#### 参考元
 - [川口さんの LINEBOT_資料.pdf](/home/moritta/Downloads/LINEBOT_資料.pdf)
 - [奥山の LINEBot](https://github.com/Masaki-Okuyama/Random-number-LINEbot)
 - [MessageAPI リファレンス](https://developers.line.biz/ja/reference/messaging-api/)
