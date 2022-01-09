@@ -8,3 +8,5 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 RUN pip install psycopg2
 
 RUN pip install -r requirements.txt
+
+FROM postgres:11-alpine

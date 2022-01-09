@@ -86,7 +86,11 @@ flask  run --host=0.0.0.0
 pip install psycopg2    
 ```
 ができなかったため https://qiita.com/b2bmakers/items/d1b0db5966ac145b0e29 
-を参照した
+を参照し
+```bash
+sudo apt install libpq-dev
+```
+を実行したところできた
 
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
@@ -102,3 +106,6 @@ pip install psycopg2
 - [MessageAPI リファレンス](https://developers.line.biz/ja/reference/messaging-api/)
 - [flask ドキュメント](https://msiz07-flask-docs-ja.readthedocs.io/ja/latest/index.html)
 <!-- - []() -->
+
+#### docker-compose 参照元
+- [](https://qiita.com/kiyokiyo_kzsby/items/bea738fa210216c5ea65)
