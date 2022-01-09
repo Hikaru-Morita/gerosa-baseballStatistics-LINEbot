@@ -81,6 +81,12 @@ flask  run --host=0.0.0.0
 そもそも host=0.0.0.0 に設定する理由は外部からアクセスするため、
 ホストからコンテナ内へのアクセスは外部アクセスなのでデフォルトでは不可能
 
+### pip install について
+```bash
+pip install psycopg2    
+```
+ができなかったため https://qiita.com/b2bmakers/items/d1b0db5966ac145b0e29 
+を参照した
 
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)

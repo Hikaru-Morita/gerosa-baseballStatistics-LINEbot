@@ -10,7 +10,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-import json
+import os               # 環境変数を読み込む
+import psycopg2         # PostgreSQL を使う
+import numpy as np      # 数値計算
 
 app = Flask(__name__)
 
