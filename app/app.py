@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, Response, request, abort
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -14,6 +14,8 @@ import json
 
 app = Flask(__name__)
 
+# ファイルから取得
+# 後々環境変数に変更
 json_file = open('./secret.json', 'r')
 channel_json = json.load(json_file)
 line_bot_api = LineBotApi(channel_json['LINE_CHANNEL_ACCESS_TOKEN'])
@@ -47,6 +49,5 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
-
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
