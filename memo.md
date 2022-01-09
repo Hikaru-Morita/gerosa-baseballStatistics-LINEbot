@@ -16,6 +16,9 @@ ngrok http 5000
 上記の https://~.ngrok.io をコピーし、LINE Developers 内 Messaging API 内の webhook URL にペーストし Verify をクリック( Use webhook にチェックを入れる)
 ![](./img_forMemo/webhook_settings.png)
 
+この時の注意点は /callback を末尾に付け忘れないようにする
+当然だがなにも付け足さない場合は / に POST リクエストが飛んでしまう
+
 ### docker の使い方
 (まだ flask コンテナができただけ)
 
@@ -26,7 +29,7 @@ docker build .
 
 次にビルドしたイメージにタグを付ける
 ```bash
-docker tag "image_id" gerosaLINEbot:1.0
+docker tag "image_id" linebot gerosa_linebot_python:1.0
 ```
 
 タグ名を指定してイメージからコンテナを立ち上げる方法
