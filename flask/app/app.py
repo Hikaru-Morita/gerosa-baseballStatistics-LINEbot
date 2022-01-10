@@ -15,6 +15,11 @@ import os               # 環境変数を読み込む
 import psycopg2         # PostgreSQL を使う
 import numpy as np      # 数値計算
 
+# psql 設定用 models.py を読み込む
+from app.models import db
+db.create_all()
+db.session.commit()
+
 app = Flask(__name__)
 
 # ファイルから取得
