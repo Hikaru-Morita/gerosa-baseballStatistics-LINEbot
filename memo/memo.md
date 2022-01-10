@@ -92,6 +92,13 @@ sudo apt install libpq-dev
 ```
 を実行したところできた
 
+### psql について
+psql コンテナ内で db に入る方法
+```bash
+psql -U admin
+```
+admin は docker-compose 内で指定している
+
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
