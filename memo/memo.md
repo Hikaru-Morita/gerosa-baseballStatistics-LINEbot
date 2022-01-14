@@ -102,6 +102,13 @@ admin は docker-compose 内で指定している
 参照 https://uga-box.hatenablog.com/entry/2020/10/14/000000
 https://zenn.dev/dowanna6/articles/6cc31869346a06
 
+### docker-compose
+
+```
+docker-compose up -d
+docker-compose up
+```
+
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
