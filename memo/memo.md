@@ -127,4 +127,6 @@ docker-compose up
 #### docker-compose 参照元
 - [](https://qiita.com/kiyokiyo_kzsby/items/bea738fa210216c5ea65)
 
--https://qiita.com/kiyokiyo_kzsby/items/bea738fa210216c5ea65
+- https://qiita.com/kiyokiyo_kzsby/items/bea738fa210216c5ea65
+
+- [docker-compose 永続化したボリュームごと初期化](https://qiita.com/k-tabuchi/items/178fdacfbaba091fd25b)

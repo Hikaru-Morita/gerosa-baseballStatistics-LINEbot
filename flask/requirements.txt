@@ -17,7 +17,7 @@ line-bot-sdk==2.0.1
 MarkupSafe==2.0.1
 multidict==5.2.0
 numpy==1.22.0
-pkg_resources==0.0.0
+# pkg_resources==0.0.0
 psycopg2==2.9.3
 requests==2.26.0
 SQLAlchemy==1.4.29
