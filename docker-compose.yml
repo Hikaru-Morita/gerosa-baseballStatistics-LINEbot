@@ -2,6 +2,8 @@ version: '3'
 services:
   flask:
     build: ./flask
+    volumes: # 「- ホスト側のパス:コンテナのパス」で指定
+      - ./flask:/flask
     ports:
       - 5000:5000
     depends_on:
@@ -10,14 +12,15 @@ services:
   psql:
     # localhost と接続するわけではないので expose を使う
     build: ./postgres
-    expose:
-      - "5432"
+    ports:
+      - 5432:5432
     environment:
+      # POSTGRES_HOST_AUTH_METHOD: 'trust'
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     volumes:
       - ./postgres/initdb:/docker-entrypoint-initdb.d
-      - database:/var/lib/postgresql/data
+      - database:/var/lib/postgresql
 volumes:
   database:
     driver: local
