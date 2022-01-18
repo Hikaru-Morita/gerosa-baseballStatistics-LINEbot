@@ -1,5 +1,5 @@
-## メモ
-
+# Linebot 開発用メモ
+## 使い方
 ### ローカルで LINEdeveloper から webhook する方法
 まずサーバーをローカルで起動する
 ```bash
@@ -58,6 +58,50 @@ docker exec -it コンテナID bin/bash
 docker image prune
 ```
 
+## TODO
+
+### 次にやること
+- データベースのテーブルをコンテナ起動時に作成する
+- Linebot で打者成績、投手成績を受け取る
+- 受け取ったデータをデータベースへ
+- データベース内のデータを Linebot で取り出す
+
+### 未解決問題
+
+#### port 関連
+``` bash
+docker-compose up
+```
+を実行すると一度目は
+``` bash
+flask_1  |      Is the server running on host "psql" (192.168.224.2) and accepting
+flask_1  |      TCP/IP connections on port 5432?
+```
+のエラーが出るが２回目は動く、なんで？
+データベースの生成がなぜか flask の後になっているから？
+
+#### python の import について
+未解決、なんで import できないのか分からないキレそう
+https://ja.stackoverflow.com/questions/73880/python-import%E5%8B%95%E4%BD%9C
+
+
+### psql への入り方
+``` bash
+docker-compose exec psql bash
+```
+でまずコンテナに入る
+
+次に、 psql コンテナ内で db に入る方法
+```bash
+psql -U admin
+```
+admin は docker-compose 内で指定しているユーザー名
+
+- https://uga-box.hatenablog.com/entry/2020/10/14/000000
+- https://zenn.dev/dowanna6/articles/6cc31869346a06
+
+## 注意点
+
 ### docker コンテナで flask サーバーを運用する場合の注意
 コンテナ内でサーバーを立てる場合は**必ず**下記のコマンドで実行する
 ```bash
@@ -81,6 +125,7 @@ flask  run --host=0.0.0.0
 そもそも host=0.0.0.0 に設定する理由は外部からアクセスするため、
 ホストからコンテナ内へのアクセスは外部アクセスなのでデフォルトでは不可能
 
+## 雑多メモ
 ### pip install について
 ```bash
 pip install psycopg2    
@@ -92,29 +137,29 @@ sudo apt install libpq-dev
 ```
 を実行したところできた
 
-### psql について
-psql コンテナ内で db に入る方法
-```bash
-psql -U admin
-```
-admin は docker-compose 内で指定している
-
-参照 https://uga-box.hatenablog.com/entry/2020/10/14/000000
-https://zenn.dev/dowanna6/articles/6cc31869346a06
-
+#### psql の init について
 なぜか initdb ができていなかった
-http://ittoo.jugem.jp/?eid=871
+docker-compose.yml の volumne 指定がおかしかった
+- http://ittoo.jugem.jp/?eid=871
+``` bash
+#  上手くいかない
+ ./postgres_data:/var/lib/postgresql/data 
+
+#  OK
+  ./postgres_data:/var/lib/postgresql
+```
 
 ### docker-compose
 
-```
+``` bash
 docker-compose up -d
+
+# docker-compose.yml がある階層で
 docker-compose up
 ```
 
-### python の import について
-https://ja.stackoverflow.com/questions/73880/python-import%E5%8B%95%E4%BD%9C
 
+## 参照ページ一覧
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
 - [ngrok](https://dashboard.ngrok.com/get-started/setup)
