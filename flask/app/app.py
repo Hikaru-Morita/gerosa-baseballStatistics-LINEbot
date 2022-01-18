@@ -1,4 +1,5 @@
 from flask import Flask, Response, request, abort
+from flask_sqlalchemy import SQLAlchemy
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -15,16 +16,15 @@ import os               # 環境変数を読み込む
 import psycopg2         # PostgreSQL を使う
 import numpy as np      # 数値計算
 
-# psql 設定用 models.py を読み込む
-from app.models import db
-db.create_all()
-db.session.commit()
-
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin@psql:5432/gerosa_linebot'
+gerosa_db = SQLAlchemy(app)
+gerosa_db.create_all()
+gerosa_db.session.commit()
 
 # ファイルから取得
 # 後々環境変数に変更
-json_file = open('./secret.json', 'r')
+json_file = open('./flask/app/secret.json', 'r')
 channel_json = json.load(json_file)
 line_bot_api = LineBotApi(channel_json['LINE_CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(channel_json['LINE_CHANNEL_SECRET'])

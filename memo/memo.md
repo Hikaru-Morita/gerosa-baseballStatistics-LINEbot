@@ -102,12 +102,18 @@ admin は docker-compose 内で指定している
 参照 https://uga-box.hatenablog.com/entry/2020/10/14/000000
 https://zenn.dev/dowanna6/articles/6cc31869346a06
 
+なぜか initdb ができていなかった
+http://ittoo.jugem.jp/?eid=871
+
 ### docker-compose
 
 ```
 docker-compose up -d
 docker-compose up
 ```
+
+### python の import について
+https://ja.stackoverflow.com/questions/73880/python-import%E5%8B%95%E4%BD%9C
 
 #### auth 関連設定の参照ページ
 - [line developer](https://developers.line.biz/console/provider/1656608676)
