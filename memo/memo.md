@@ -101,6 +101,16 @@ psql -U admin
 ```
 admin は docker-compose 内で指定しているユーザー名
 
+データベース内に入るには
+```bash
+psql -U [データベース名]
+```
+
+テーブル一覧は
+```bash
+\dt
+```
+
 - https://uga-box.hatenablog.com/entry/2020/10/14/000000
 - https://zenn.dev/dowanna6/articles/6cc31869346a06
 
