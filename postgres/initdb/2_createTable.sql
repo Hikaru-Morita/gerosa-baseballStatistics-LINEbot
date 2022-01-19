@@ -1,5 +1,5 @@
 CREATE TABLE player (
-  id integer, 
+  id integer primary key, 
   full_name varchar(30),
   swing char,
   pitch char,
@@ -8,7 +8,7 @@ CREATE TABLE player (
 );
 
 CREATE TABLE game (
-  id integer, 
+  id integer primary key, 
   team_name varchar(30),
   game_day int,
   result varchar(3),
@@ -18,17 +18,19 @@ CREATE TABLE game (
 );
 
 CREATE TABLE position (
-  id int,
   position int,
-  player_id int,
+  player_id int references player(id),
+
+  primary key (position, player_id),
 
   created_at timestamp
 );
 
 CREATE TABLE pitch (
-  id int,
-  player_id int,
-  game_id int,
+  player_id int references player(id),
+  game_id int references game(id),
+
+  primary key (player_id, game_id),
   
   earned_run int,
   inning float,
@@ -37,9 +39,9 @@ CREATE TABLE pitch (
 );
 
 CREATE TABLE bat (
-  id int,
-  player_id int,
-  game_id int,
+  player_id int references player(id),
+  game_id int references game(id),
+  primary key (player_id, game_id),
 
   bat int,
   home_run int,
