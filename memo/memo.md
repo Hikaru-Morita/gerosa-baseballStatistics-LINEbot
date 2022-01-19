@@ -57,6 +57,10 @@ docker exec -it コンテナID bin/bash
 ```bash
 docker image prune
 ```
+### データベース設計
+db-diagram
+https://dbdiagram.io/d/61e7631ebb7a646986fa91c6
+
 
 ## TODO
 
