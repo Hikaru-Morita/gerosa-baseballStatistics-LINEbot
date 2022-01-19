@@ -23,4 +23,4 @@ services:
       - database:/var/lib/postgresql
 volumes:
   database:
-    driver: local
+#     driver: local

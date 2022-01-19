@@ -139,6 +139,9 @@ flask  run --host=0.0.0.0
 そもそも host=0.0.0.0 に設定する理由は外部からアクセスするため、
 ホストからコンテナ内へのアクセスは外部アクセスなのでデフォルトでは不可能
 
+### docker-entrypoint-initdb.dはデータフォルダにファイルがあると再ロードしない
+https://teratail.com/questions/260793
+
 ## 雑多メモ
 ### pip install について
 ```bash
