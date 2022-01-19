@@ -1,5 +1,5 @@
 CREATE TABLE player (
-  id integer primary key, 
+  id int primary key, 
   full_name varchar(30),
   swing char,
   pitch char,
@@ -8,7 +8,7 @@ CREATE TABLE player (
 );
 
 CREATE TABLE game (
-  id integer primary key, 
+  id int primary key, 
   team_name varchar(30),
   game_day int,
   result varchar(3),
