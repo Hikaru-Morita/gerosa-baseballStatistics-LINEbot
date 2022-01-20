@@ -4,8 +4,9 @@
 CREATE TABLE player (
   id varchar(100) primary key, 
   full_name varchar(30),
-  swing char,
-  pitch char,
+  uniform_number int,
+  swing varchar(3),
+  pitch varchar(3),
 
   created_at timestamp
 );
