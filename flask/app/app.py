@@ -1,3 +1,4 @@
+from typing import Text
 from flask import Flask, Response, request, abort
 
 from linebot import (
@@ -82,18 +83,41 @@ def handle_message(event):
             (
                 TextSendMessage('登録済み'),
                 TextSendMessage(result[0][0]),
+                TextSendMessage(result[0][1]),
             )
         )
     else:
         # 未登録
-        # データベースに登録されていないユーザーは登録する
-        do_sql_other("INSERT INTO player VALUES ('%s', 'name', 'R', 'R');" % user_id)
-        line_bot_api.reply_message(
-            event.reply_token,
-            (
-                TextSendMessage('未登録'),
+        # 規定の形式なら登録する
+        colums = event.message.text.split(",")
+        if colums[0] == "登録":
+            try:
+                # データベースに登録されていないユーザーは登録する
+                do_sql_other("INSERT INTO player VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');".format(user_id, colums[1], colums[2], colums[3], colums[4]))
+            except:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    (
+                        TextSendMessage('例に従って登録を行って下さい'),
+                        TextSendMessage('例： 登録,森田光,22,右打ち,右投げ'),
+                    )
+                )
+            else:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    (
+                        TextSendMessage('登録完了'),
+                    )
+                )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                (
+                    TextSendMessage('未登録'),
+                    TextSendMessage('登録のため\n \"登録,{フルネーム},{背番号},{右or左}打ち,{右or左}投げ\" \nを投稿して下さい \n ("," の後にスペースを空けないで下さい)'),
+                    TextSendMessage('例： 登録,森田光,22,右打ち,右投げ'),
+                )
             )
-        )
 
     # line_bot_api.reply_message(
     #     event.reply_token,
