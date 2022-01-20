@@ -57,6 +57,10 @@ docker exec -it コンテナID bin/bash
 ```bash
 docker image prune
 ```
+### データベース設計
+db-diagram
+https://dbdiagram.io/d/61e7631ebb7a646986fa91c6
+
 
 ## TODO
 
@@ -97,6 +101,16 @@ psql -U admin
 ```
 admin は docker-compose 内で指定しているユーザー名
 
+データベース内に入るには
+```bash
+psql -U [データベース名]
+```
+
+テーブル一覧は
+```bash
+\dt
+```
+
 - https://uga-box.hatenablog.com/entry/2020/10/14/000000
 - https://zenn.dev/dowanna6/articles/6cc31869346a06
 
@@ -124,6 +138,9 @@ flask  run --host=0.0.0.0
 
 そもそも host=0.0.0.0 に設定する理由は外部からアクセスするため、
 ホストからコンテナ内へのアクセスは外部アクセスなのでデフォルトでは不可能
+
+### docker-entrypoint-initdb.dはデータフォルダにファイルがあると再ロードしない
+https://teratail.com/questions/260793
 
 ## 雑多メモ
 ### pip install について

@@ -1,0 +1,1 @@
+create database gerosa_linebot ENCODING = 'UTF8';
