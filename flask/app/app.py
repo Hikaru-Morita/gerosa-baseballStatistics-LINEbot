@@ -1,5 +1,4 @@
 from flask import Flask, Response, request, abort
-from flask_sqlalchemy import SQLAlchemy
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -18,13 +17,6 @@ import numpy as np      # 数値計算
 
 app = Flask(__name__)
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://admin:admin@psql:5432/gerosa_linebot'
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-# 'postgresql://admin:admin@psql:5432/gerosa_linebot' は 'postgresql://[ユーザ名]:[パスワード]@[コンテナ名]:[ポート番号]/[データベース名]'
-
-gerosa_db = SQLAlchemy(app)
-# gerosa_db.create_all()
-# gerosa_db.session.commit()
 
 # ファイルから取得
 # 後々環境変数に変更
@@ -34,8 +26,13 @@ line_bot_api = LineBotApi(channel_json['LINE_CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(channel_json['LINE_CHANNEL_SECRET'])
 
 def get_connection():
-    return psycopg2.connect(DATABASE_URL)
-
+    return psycopg2.connect(
+        dbname = 'gerosa_linebot',
+        user = 'admin',
+        password = 'admin',
+        host = 'psql',
+        port = 5432
+    )
 
 def do_sql_select(sql):
     result = None
@@ -44,7 +41,6 @@ def do_sql_select(sql):
             cur.execute(sql)
             result = cur.fetchall()
     return result
-
 
 def do_sql_other(sql):
     with get_connection() as conn:
@@ -76,7 +72,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = str(event.source.user_id)
-    result = do_sql_select("SELECT * FROM gerosa-linebot WHERE userID='%s';" % user_id)
+
+    result = do_sql_select("SELECT * FROM player WHERE id='%s';" % user_id)
 
     if result:  # データベースに登録されているユーザか判定
         # 登録済み
@@ -84,24 +81,25 @@ def handle_message(event):
             event.reply_token,
             (
                 TextSendMessage('登録済み'),
+                TextSendMessage(result[0][0]),
             )
         )
     else:
         # 未登録
-        do_sql_other("INSERT INTO gerosa-linebot VALUES ('%s', '右', '右');" % user_id)
+        # データベースに登録されていないユーザーは登録する
+        do_sql_other("INSERT INTO player VALUES ('%s', 'name', 'R', 'R');" % user_id)
         line_bot_api.reply_message(
             event.reply_token,
             (
                 TextSendMessage('未登録'),
             )
         )
-        # データベースに登録されていないユーザーは登録する
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        # TextSendMessage(text=event.message.text)
-        TextSendMessage(text='to mo yo')
-    )
+    # line_bot_api.reply_message(
+    #     event.reply_token,
+    #     # TextSendMessage(text=event.message.text)
+    #     TextSendMessage(text='to mo yo')
+    # )
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0') # 外部からアクセスする設定

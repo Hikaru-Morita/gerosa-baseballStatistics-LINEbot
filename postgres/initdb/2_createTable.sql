@@ -1,5 +1,8 @@
+-- 1_createdb.sql で作成した db に入る
+\c gerosa_linebot
+
 CREATE TABLE player (
-  id int primary key, 
+  id varchar(100) primary key, 
   full_name varchar(30),
   swing char,
   pitch char,
@@ -19,7 +22,7 @@ CREATE TABLE game (
 
 CREATE TABLE position (
   position int,
-  player_id int references player(id),
+  player_id varchar(100) references player(id),
 
   primary key (position, player_id),
 
@@ -27,7 +30,7 @@ CREATE TABLE position (
 );
 
 CREATE TABLE pitch (
-  player_id int references player(id),
+  player_id varchar(100) references player(id),
   game_id int references game(id),
 
   primary key (player_id, game_id),
@@ -39,7 +42,7 @@ CREATE TABLE pitch (
 );
 
 CREATE TABLE bat (
-  player_id int references player(id),
+  player_id varchar(100) references player(id),
   game_id int references game(id),
   primary key (player_id, game_id),
 

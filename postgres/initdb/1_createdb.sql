@@ -1,1 +1,1 @@
-create database gerosa_linebot
+create database gerosa_linebot;
