@@ -100,6 +100,7 @@ def registerPlayer(colums, user_id, event):
             event.reply_token,
             (
                 TextSendMessage('未登録'),
+                TextSendMessage('選手登録を始めます'),
                 TextSendMessage('登録のため\n \"登録,{フルネーム},{背番号},{右or左}打ち,{右or左}投げ\" \nを投稿して下さい \n ("," の後にスペースを空けないで下さい)'),
                 TextSendMessage('例： 登録,森田光,22,右打ち,右投げ'),
             )

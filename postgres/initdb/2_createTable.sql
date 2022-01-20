@@ -3,7 +3,7 @@
 
 CREATE TABLE player (
   id varchar(100) primary key, 
-  full_name varchar(30),
+  full_name varchar(30) NOT NULL,
   uniform_number int,
   swing varchar(3),
   pitch varchar(3),
@@ -13,17 +13,20 @@ CREATE TABLE player (
 
 CREATE TABLE game (
   id int primary key, 
-  team_name varchar(30),
-  game_day int,
-  result varchar(3),
-  ground varchar(30),
+  team_name varchar(30) NOT NULL,
+  game_day int NOT NULL,
+  result varchar(3) NOT NULL,
+  our_score int,
+  against_score int, 
+  ground varchar(30) NOT NULL,
+  meridian varchar(2),
 
   created_at timestamp
 );
 
 CREATE TABLE position (
-  position int,
-  player_id varchar(100) references player(id),
+  position int NOT NULL,
+  player_id varchar(100) references player(id) NOT NULL,
 
   primary key (position, player_id),
 
@@ -31,23 +34,23 @@ CREATE TABLE position (
 );
 
 CREATE TABLE pitch (
-  player_id varchar(100) references player(id),
-  game_id int references game(id),
+  player_id varchar(100) references player(id) NOT NULL,
+  game_id int references game(id) NOT NULL,
 
   primary key (player_id, game_id),
   
-  earned_run int,
-  inning float,
+  earned_run int NOT NULL,
+  inning float NOT NULL,
 
   created_at timestamp
 );
 
 CREATE TABLE bat (
-  player_id varchar(100) references player(id),
-  game_id int references game(id),
+  player_id varchar(100) references player(id) NOT NULL,
+  game_id int references game(id) NOT NULL,
   primary key (player_id, game_id),
 
-  bat int,
+  bat int NOT NULL,
   home_run int,
   base_hit int,
   two_base_hit int,
