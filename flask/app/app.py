@@ -59,14 +59,21 @@ def handle_message(event):
 
     if result:  # データベースに登録されているユーザか判定
         # 登録済み
-        line_bot_api.reply_message(
-            event.reply_token,
-            (
-                TextSendMessage('登録済み'),
-                TextSendMessage(result[0][0]),
-                TextSendMessage(result[0][1]),
-            )
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     (
+        #         TextSendMessage('登録済み'),
+        #         TextSendMessage(result[0][0]),
+        #         TextSendMessage(result[0][1]),
+        #     )
+        # )
+
+        if '選手一覧' in event.message.text:
+            replyAllPlayers(user_id)
+
+        elif '試合結果追加' in event.message.text:
+            registerGame(event)
+        
     else:
         # 未登録
         # 規定の形式なら登録する
@@ -106,6 +113,34 @@ def registerPlayer(colums, user_id, event):
             )
         )
 
+def registerGame(event):
+    # "東京Muse,20220118,3-2"
+    result = event.message.text.split(":")
+    colums = result[1].split(",")
+    colums_score = colums[2].split("-")
+    do_sql_other(
+        "INSERT INTO player VALUES ('{0}', '{1}', '{2}', '{3}');"
+        .format(colums[0], colums[1], colums_score[0], colums_score[1])
+    )
+    
+    for player in getPlayers():
+        line_bot_api.push_message(player[0], TextSendMessage(text='{0}'.format(player[1])))
+
+
+def replyAllPlayers(user_id):
+    # LINE BOTのreplyMessage(応答メッセージ)は
+    # 送信されたメッセージ１つに付きreply tokenが発行され
+    # それを使ってBOTが返信するという仕組みになっている
+    # そのため line_bot_api.push_message を用いる
+    for player in getPlayers():
+        line_bot_api.push_message(user_id, TextSendMessage(text='{0}'.format(player[1])))
+
+
+def getPlayers():
+    result = do_sql_select("SELECT id,full_name FROM player;" )
+    return result
+
+# def getGames():
 
 # Line bot の webhook 用
 @app.route("/callback", methods=['POST'])
