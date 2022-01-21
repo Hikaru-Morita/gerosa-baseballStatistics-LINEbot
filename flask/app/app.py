@@ -24,6 +24,7 @@ json_file = open('./flask/app/secret.json', 'r')
 channel_json = json.load(json_file)
 line_bot_api = LineBotApi(channel_json['LINE_CHANNEL_ACCESS_TOKEN'])
 handler = WebhookHandler(channel_json['LINE_CHANNEL_SECRET'])
+json_file.close()
 
 # DB とコネクションを生成
 def get_connection():
