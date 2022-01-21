@@ -59,18 +59,17 @@ def handle_message(event):
     result = do_sql_select("SELECT * FROM player WHERE id='%s';" % user_id)
 
     if result:  # データベースに登録されているユーザか判定
-        # 登録済み
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     (
-        #         TextSendMessage('登録済み'),
-        #         TextSendMessage(result[0][0]),
-        #         TextSendMessage(result[0][1]),
-        #     )
-        # )
 
         if '選手一覧' in event.message.text:
             replyAllPlayers(user_id)
+        
+        elif '試合一覧' in event.message.text:
+            replyAllGames(user_id)
+
+        elif '試合成績:打者':
+            colums = event.message.text.split(",")
+            replyAllBats(user_id,colums[1])
+
 
         elif '試合結果追加' in event.message.text:
             registerGame(event)
@@ -114,6 +113,16 @@ def registerPlayer(colums, user_id, event):
             )
         )
 
+# 打者成績を登録
+def registerBat(event):
+    colums = event.message.text.split(",")
+
+    do_sql_other(
+        "INSERT INTO player VALUES ('{0}', '{1}', '{2}');"
+        .format(colums[0], colums[1], colums[2])
+    )
+
+# 試合を登録する
 def registerGame(event):
     # "東京Muse,20220118,3-2"
     result = event.message.text.split(":")
@@ -136,12 +145,35 @@ def replyAllPlayers(user_id):
     for player in getPlayers():
         line_bot_api.push_message(user_id, TextSendMessage(text='{0}'.format(player[1])))
 
+def replyAllGames(user_id):
+    for game in getGames():
+        line_bot_api.push_message(user_id, 
+            TextSendMessage(text='{0},{1},{2},{3}'.format(game[0],game[1],game[2],game[3]))
+        )
+
+def replyAllBats(user_id, game_id):
+    team_name = do_sql_select('SELECT team_name FROM game WHERE game.id = {0};'.format(str(game_id)))
+    for bat in getBats(game_id):
+        player_name = do_sql_select('SELECT full_name FROM player WHERE player.id = \'{0}\';'.format(str(bat[0])))
+        line_bot_api.push_message(user_id, 
+            TextSendMessage(text="{0} : {1}打数".format(player_name[0],bat[2]))
+        )
+
 
 def getPlayers():
-    result = do_sql_select("SELECT id,full_name FROM player;" )
+    result = do_sql_select("SELECT id,full_name FROM player;")
     return result
 
-# def getGames():
+def getGames():
+    result = do_sql_select("SELECT id,team_name,game_day,result FROM game;")
+    return result
+
+def getBats(game_id):
+    result = do_sql_select('SELECT * FROM bat WHERE bat.game_id = {0};'.format(str(game_id)))
+    print(result,flush=True)
+    return result
+
+# def getPersonalBats(user_id, game_id):
 
 # Line bot の webhook 用
 @app.route("/callback", methods=['POST'])
