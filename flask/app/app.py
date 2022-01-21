@@ -1,5 +1,5 @@
 from typing import Text
-from flask import Flask, Response, request, abort
+from flask import Flask, request, abort
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -12,9 +12,9 @@ from linebot.models import (
 )
 
 import json
-import os               # 環境変数を読み込む
+# import os               # 環境変数を読み込む
 import psycopg2         # PostgreSQL を使う
-import numpy as np      # 数値計算
+# import numpy as np      # 数値計算
 
 app = Flask(__name__)
 
